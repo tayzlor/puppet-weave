@@ -1,0 +1,122 @@
+#!/bin/sh
+#
+# This file is managed by Puppet and local changes
+# may be overwritten
+#
+#    /etc/rc.d/init.d/<servicename>
+#
+#    Daemonize for weave.
+#
+# chkconfig: 2345 97 15
+# description: Weave Docker Network Service
+
+### BEGIN INIT INFO
+## Provides:       weave
+## Required-Start: $network docker
+## Required-Stop:  $network docker
+## Should-Start:
+## Should-Stop:
+## Default-Start: 2 3 4 5
+## Default-Stop:  0 1 6
+## Short-Description: start and stop for Weave daemon
+## Description: Weave Docker Network Service
+#### END INIT INFO
+
+if [ -e /etc/init.d/functions ]; then
+    . /etc/init.d/functions
+elif [ -e /lib/lsb/init-functions ]; then
+    . /lib/lsb/init-functions
+    failure() {
+        log_failure_msg "$@"
+        return 1
+    }
+    success() {
+        log_success_msg "$@"
+        return 0
+    }
+else
+    failure() {
+        echo "fail: $@" >&2
+        exit 1
+    }
+    success() {
+        echo "success: $@" >&2
+        exit 0
+    }
+fi
+
+prog=weave
+exec="<%= scope.lookupvar('weave::bin_dir') %>/$prog"
+cidfile="/var/run/$prog.cid"
+if [ -d /var/lock/subsys ]; then
+    lockfile="/var/lock/subsys/$prog"
+else
+    unset lockfile
+fi
+
+start() {
+    [ -x $exec ] || exit 5
+
+    if [ -f $cidfile ]; then
+        cid="$(cat $cidfile)"
+        if [ -n "$cid" ]; then
+            $exec ps |grep $cid
+            retval=$?
+            if [ $retval -eq 0 ]; then
+                failure
+                echo
+                printf "Weave $cid is still running.\n"
+                exit 7
+            else
+                rm -f $lockfile $cidfile
+            fi
+        fi
+    fi
+
+    printf "Starting $prog:\t"
+    $exec launch <%= scope.lookupvar('weave::peers').join(' ') %> > $cidfile
+    retval=$?
+    echo
+    if [ $retval -eq 0 ]; then
+	[ -n "$lockfile" ] && touch $lockfile
+        success
+    else
+        failure
+    fi
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    $exec stop
+    retval=$?
+    [ $retval -eq 0 ] && rm -f $lockfile $cidfile
+    return $retval
+}
+
+case "$1" in
+    start)
+    start
+    ;;
+    stop)
+    stop
+    ;;
+    status)
+    $exec status
+    if [ $? -eq 1 ] ; then
+      echo $prog not running
+      exit 1
+    fi
+    ;;
+    restart|reload)
+    stop
+    start
+    ;;
+    condrestart)
+    [ -f /var/lock/subsys/$prog ] && restart || :
+    ;;
+    *)
+    echo "Usage: $0 [start|stop|status|reload|restart]"
+    exit 1
+    ;;
+esac
+exit $?

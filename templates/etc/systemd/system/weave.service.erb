@@ -1,0 +1,13 @@
+[Unit]
+Description=Weave Network
+Documentation=http://zettio.github.io/weave/
+Requires=docker.service
+After=docker.service
+[Service]
+EnvironmentFile=-/etc/sysconfig/weave
+ExecStartPre=<%= scope.lookupvar('weave::bin_dir') %>/weave launch <%= scope.lookupvar('weave::peers').join(' ') %>
+ExecStart=/usr/bin/docker logs -f weave
+SuccessExitStatus=2
+ExecStop=<%= scope.lookupvar('weave::bin_dir') %>/weave stop
+[Install]
+WantedBy=multi-user.target

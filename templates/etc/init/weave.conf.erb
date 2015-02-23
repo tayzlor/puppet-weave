@@ -1,0 +1,13 @@
+description "Weave Docker Network Service"
+start on filesystem and started docker
+stop on runlevel [!2345]
+
+script
+ [ -e /etc/default/weave ] && . /etc/default/weave
+ /usr/bin/docker rm -f weave || true
+ <%= scope.lookupvar('weave::bin_dir') %>/weave launch <%= scope.lookupvar('weave::peers').join(' ') %>
+end script
+
+respawn
+respawn limit 10 10
+kill timeout 10
