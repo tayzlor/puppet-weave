@@ -1,15 +1,6 @@
 [![Build
 Status](https://secure.travis-ci.org/tayzlor/puppet-weave.png)](http://travis-ci.org/tayzlor/puppet-weave)
 
-#### Table of Contents
-
-1. [Overview](#overview)
-2. [Requirements](#requirements)
-3. [Usage](#usage)
-4. [Limitations](#limitations)
-
-## Overview
-
 Puppet module for installing, and configuring [Weave](https://github.com/zettio/weave), the virtual network that connects
 Docker containers deployed across multiple hosts.
 
