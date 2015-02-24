@@ -40,7 +40,7 @@ class { 'weave':
 }
 ```
 
-If using in conjunction with [garethr/docker](https://forge.puppetlabs.com/garethr/docker) module.
+If you are using this in conjunction with [garethr/docker](https://forge.puppetlabs.com/garethr/docker) module.
 
 ```puppet
 class { 'weave':
