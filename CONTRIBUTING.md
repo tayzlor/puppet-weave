@@ -84,7 +84,7 @@ by default. To run against another host, set the `RS_SET` environment
 variable to the name of a host described by a `.yml` file in the
 `nodeset` directory. For example, to run against CentOS 6.4:
 
-    RS_SET=centos-64-x64 bundle exec rake acceptance
+    RS_SET=centos-65-x64 bundle exec rake acceptance
 
 If you don't want to have to recreate the virtual machine every time you
 can use `BEAKER_DESTROY=no` and `BEAKER_PROVISION=no`. On the first run you will

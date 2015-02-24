@@ -5,7 +5,7 @@ Requires=docker.service
 After=docker.service
 [Service]
 EnvironmentFile=-/etc/sysconfig/weave
-ExecStartPre=<%= scope.lookupvar('weave::bin_dir') %>/weave launch <%= scope.lookupvar('weave::peers').join(' ') %>
+ExecStartPre=<%= scope.lookupvar('weave::bin_dir') %>/weave launch <% if @cluster_peers %><%= @cluster_peers %><% end %>
 ExecStart=/usr/bin/docker logs -f weave
 SuccessExitStatus=2
 ExecStop=<%= scope.lookupvar('weave::bin_dir') %>/weave stop

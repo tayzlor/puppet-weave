@@ -3,23 +3,58 @@
   "version": "0.1.0",
   "author": "Graham Taylor",
   "summary": "Module for installing and configuring Weave for Docker",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "source": "https://github.com/tayzlor/puppet-weave.git",
   "project_page": "https://github.com/tayzlor/puppet-weave",
   "issues_url": "https://github.com/tayzlor/puppet-weave/issues",
   "tags": ["docker", "weave"],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },{
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },{
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "14.04"
+      ]
+    },{
+      "operatingsystem": "Fedora",
+      "operatingsystemrelease": [
+        "21"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "pe",
+      "version_requirement": "3.x"
+    },
+    {
+      "name": "puppet",
+      "version_requirement": "3.x"
+    }
+  ],
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">= 4.1.0"
     },
     {
-      "name": "garethr/docker",
-      "version_requirement": ">=3.3.2"
+      "name": "nanliu/staging",
+      "version_requirement": ">= 0.4.0"
     },
     {
-      "name": "nanliu/staging",
-      "version_requirement": ">=0.4.0"
+      "name": "garethr/docker",
+      "version_requirement": ">= 3.3.1"
     }
   ]
 }

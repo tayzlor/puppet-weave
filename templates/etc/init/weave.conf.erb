@@ -5,7 +5,7 @@ stop on runlevel [!2345]
 script
  [ -e /etc/default/weave ] && . /etc/default/weave
  /usr/bin/docker rm -f weave || true
- <%= scope.lookupvar('weave::bin_dir') %>/weave launch <%= scope.lookupvar('weave::peers').join(' ') %>
+ <%= scope.lookupvar('weave::bin_dir') %>/weave launch <% if @cluster_peers %><%= @cluster_peers %><% end %>
 end script
 
 respawn

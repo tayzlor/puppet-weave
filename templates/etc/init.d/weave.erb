@@ -53,6 +53,7 @@ if [ -d /var/lock/subsys ]; then
 else
     unset lockfile
 fi
+[ -e /etc/sysconfig/weave ] && . /etc/sysconfig/weave
 
 start() {
     [ -x $exec ] || exit 5
@@ -74,7 +75,7 @@ start() {
     fi
 
     printf "Starting $prog:\t"
-    $exec launch <%= scope.lookupvar('weave::peers').join(' ') %> > $cidfile
+    $exec launch <% if @cluster_peers %><%= @cluster_peers %><% end %> > $cidfile
     retval=$?
     echo
     if [ $retval -eq 0 ]; then
