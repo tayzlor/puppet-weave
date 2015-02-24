@@ -1,3 +1,6 @@
+[![Build
+Status](https://secure.travis-ci.org/tayzlor/puppet-weave.png)](http://travis-ci.org/tayzlor/puppet-weave)
+
 #### Table of Contents
 
 1. [Overview](#overview)
