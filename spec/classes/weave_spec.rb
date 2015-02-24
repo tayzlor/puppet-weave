@@ -21,6 +21,8 @@ describe 'weave', :type => :class do
           :kernelrelease          => '3.8.0-29-generic'
         } }
         service_config_file = '/etc/default/weave'
+        init_file = '/etc/init/weave.conf'
+
         it { should contain_service('weave').with_hasrestart('false') }
         it { should contain_file('/etc/init.d/weave').with_ensure('link').with_target('/lib/init/upstart-job') }
       end
@@ -32,8 +34,11 @@ describe 'weave', :type => :class do
           :operatingsystemrelease => '7.0'
         } }
         service_config_file = '/etc/sysconfig/weave'
+        init_file = '/etc/systemd/system/weave.service'
 
         it { should contain_file(service_config_file) }
+        it { should contain_file(init_file) }
+        it { should contain_service('weave').with_hasrestart('false') }
       end
 
       context 'When passing a non-bool as create_bridge' do
@@ -104,6 +109,23 @@ describe 'weave', :type => :class do
         it { should contain_file(service_config_file).with_content(/WEAVE_PASSWORD="testpass"/) }
       end
 
+      context "When specifying cluster peers to join" do
+        let :params do
+          { :peers => ['10.0.0.1'] }
+        end
+
+        it { should contain_file(init_file).with_content(/weave launch 10.0.0.1/) }
+      end
+
+      context "When including the current IP in cluster peers" do
+        let(:params) {{
+          :client_ip => '10.0.0.1',
+          :peers     => ['10.0.0.1', '10.0.0.2']
+        }}
+
+        it { should contain_file(init_file).with_content(/weave launch 10.0.0.2/) }
+      end
+
       context 'with expose' do
         let(:params) { {'expose' => '10.0.0.1/24'} }
         it { should contain_weave__expose('weave-expose-10.0.0.1/24').with_ip('10.0.0.1/24') }
@@ -114,25 +136,14 @@ describe 'weave', :type => :class do
   end
 
   context 'specific to RedHat 6' do
-      let(:facts) { {
-        :osfamily => 'RedHat',
-        :operatingsystem => 'RedHat',
-        :operatingsystemrelease => '6.5'
-      } }
-
-      it { should contain_service('weave').with_hasrestart('true') }
-      it { should contain_file('/etc/init.d/weave') }
-    end
-
-  context 'specific to RedHat 7 or above' do
     let(:facts) { {
       :osfamily => 'RedHat',
       :operatingsystem => 'RedHat',
-      :operatingsystemrelease => '7.0'
+      :operatingsystemrelease => '6.5'
     } }
 
-    it { should contain_service('weave').with_hasrestart('false') }
-    it { should contain_file('/etc/systemd/system/weave.service') }
+    it { should contain_service('weave').with_hasrestart('true') }
+    it { should contain_file('/etc/init.d/weave') }
   end
 
   context 'unsupported operating system' do

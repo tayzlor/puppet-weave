@@ -14,7 +14,7 @@ class weave::service (
   $service_enable       = $weave::service_enable,
 ) {
   # Remove the current node IP address from the cluster if its in there.
-  $cluster_peers = strip(join((regsubst($peers, "^${::ipaddress_eth0}$", '', 'G')), ' '))
+  $cluster_peers = strip(join((regsubst($peers, "^${weave::client_ip}$", '', 'G')), ' '))
 
   case $::osfamily {
     'Debian': {

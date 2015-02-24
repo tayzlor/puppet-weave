@@ -1,3 +1,6 @@
+[![Build
+Status](https://secure.travis-ci.org/tayzlor/puppet-weave.png)](http://travis-ci.org/tayzlor/puppet-weave)
+
 #### Table of Contents
 
 1. [Overview](#overview)
@@ -16,7 +19,7 @@ If you install this from the git repository rather than from the forge, dependen
 
 * [garethr/docker](https://forge.puppetlabs.com/garethr/docker) - Required for acceptance tests. If not using this module (to install Docker) a working Docker installation is required for [Weave](https://github.com/zettio/weave) to run on top of.
 * [puppetlabs/stdlib](https://forge.puppetlabs.com/puppetlabs/stdlib)
-* [nanliu/staging](https://forge.puppetlabs.com/nanliu/staging) - Only required if using URL download.
+* [nanliu/staging](https://forge.puppetlabs.com/nanliu/staging) - Only required if using 'url' install method.
 
 In order to run [Weave](https://github.com/zettio/weave) a kernel version after 3.5 is required, the newer the better.
 
@@ -27,7 +30,7 @@ This module includes a single class:
 include 'weave'
 ```
 
-By default this downloads the Weave source from Github and installs it under
+By default this downloads the Weave binary from Github and installs it under
 /usr/local/bin/weave.
 
 If you want to install via a package management system:
@@ -40,7 +43,7 @@ class { 'weave':
 }
 ```
 
-If using in conjunction with [garethr/docker](https://forge.puppetlabs.com/garethr/docker) module.
+If you are using this in conjunction with [garethr/docker](https://forge.puppetlabs.com/garethr/docker) module.
 
 ```puppet
 class { 'weave':
@@ -85,6 +88,6 @@ This will end up running -
 
 ## Limitations
 
-It is possible to run this on Centos 6.5, but you will required a patched/upgraded kernel version (as [Weave](https://github.com/zettio/weave) requires Kernel 3.5 or greater). You might be also required to update the iptables package.
+It is possible to run this on Centos 6.5, but you will required a patched/upgraded kernel version (as [Weave](https://github.com/zettio/weave) requires Kernel 3.5 or greater). You might also be required to update the iptables package.
 
 If you want some information around how to install kernel 3.10 on Centos 6.5 [check out this link](http://bicofino.io/blog/2014/10/25/install-kernel-3-dot-10-on-centos-6-dot-5/)

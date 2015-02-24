@@ -9,6 +9,7 @@ class weave::params {
   $package_ensure    = 'latest'
   $version           = 'latest_release'
   $peers             = []
+  $bin_dir           = '/usr/local/bin'
   $password          = undef
   $expose            = undef
   $create_bridge     = false

@@ -12,6 +12,8 @@ define weave::expose(
   $ip            = undef,
   $create_bridge = false
 ) {
+  include weave
+
   validate_bool($create_bridge)
   if ! is_ip_address($ip) {
     fail('weave::expose::ip should be an IP address.')
