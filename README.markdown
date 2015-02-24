@@ -7,7 +7,7 @@
 
 ## Overview
 
-Puppet module for installing, configuring and managing [Weave](https://github.com/zettio/weave), the virtual network that connects
+Puppet module for installing, and configuring [Weave](https://github.com/zettio/weave), the virtual network that connects
 Docker containers deployed across multiple hosts.
 
 ## Requirements
