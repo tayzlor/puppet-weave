@@ -30,7 +30,7 @@
 #   An array of cluster IP addresses to join on weave launch.
 #
 # [*download_url*]
-#   URL to download the Weave executable from. Defaults to "https://github.com/zettio/weave/archive/${version}.zip"
+#   URL to download the Weave executable from. Defaults to "https://github.com/zettio/weave/releases/tag/${version}/weave"
 #
 # [*bin_dir*]
 #   The location of the Weave executable. Defaults to /usr/local/bin
@@ -44,7 +44,7 @@ class weave (
   $create_bridge     = $weave::params::create_bridge,
   $password          = $weave::params::password,
   $peers             = $weave::params::peers,
-  $download_url      = "https://github.com/zettio/weave/archive/${version}.zip",
+  $download_url      = "https://github.com/zettio/weave/releases/download/${version}/weave",
   $bin_dir           = '/usr/local/bin',
   $service_name      = $weave::params::service_name,
   $service_state     = $weave::params::service_state,
@@ -64,7 +64,4 @@ class weave (
   class { 'weave::config': } ~>
   class { 'weave::service': } ->
   Class['weave']
-
-  Class['weave'] -> Weave::Expose <||>
-  Class['weave'] -> Weave::Connect <||>
 }

@@ -19,14 +19,17 @@ define weave::expose(
 
   exec { "weave-expose-${ip}":
     command => "weave expose ${ip}",
-    path    => $weave::bin_dir,
+    path    => [$weave::bin_dir,'/sbin','/bin','/usr/bin'],
+    user    => 'root',
+    require => Class['weave::install']
   }
 
   if $create_bridge {
     exec { "weave-create-bridge-${ip}":
       command => 'weave create-bridge',
-      path    => $weave::bin_dir,
-      require => Exec["weave-expose-${ip}"],
+      path    => [$weave::bin_dir,'/sbin','/bin','/usr/bin'],
+      user    => 'root',
+      require => [ Exec["weave-expose-${ip}"], Class['weave::install'] ]
     }
   }
 }

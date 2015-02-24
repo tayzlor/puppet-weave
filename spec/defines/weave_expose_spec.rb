@@ -42,10 +42,12 @@ describe 'weave::expose' do
     }}
     it { should contain_exec("weave-expose-10.0.1.1/24").with({
       'command' => 'weave expose 10.0.1.1/24',
+      'user'    => 'root',
     })}
     it { should contain_exec("weave-create-bridge-10.0.1.1/24").with({
       'command' => 'weave create-bridge',
-      'require' => 'Exec[weave-expose-10.0.1.1/24]',
+      'user'    => 'root',
+      'require' => ["Exec[weave-expose-10.0.1.1/24]", "Class[Weave::Install]"],
     })}
   end
 end

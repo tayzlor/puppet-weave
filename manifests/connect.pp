@@ -10,6 +10,8 @@ define weave::connect(
 ) {
   exec { "weave-connect-${host}":
     command => "weave connect ${host}",
-    path    => $weave::bin_dir,
+    path    => [$weave::bin_dir,'/sbin','/bin','/usr/bin'],
+    user    => 'root',
+    require => Class['weave::install']
   }
 }

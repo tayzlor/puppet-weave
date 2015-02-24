@@ -9,12 +9,9 @@ class weave::install {
     if $::operatingsystem != 'darwin' {
       ensure_packages(['unzip'])
     }
-    staging::file { 'weave.zip':
-      source => $weave::download_url
-    } ->
-    staging::extract { 'weave.zip':
-      target  => $weave::bin_dir,
-      creates => "${weave::bin_dir}/weave",
+    staging::file { 'weave':
+      source => $weave::download_url,
+      target => "${weave::bin_dir}/weave",
     } ->
     file { "${weave::bin_dir}/weave":
       owner => 'root',

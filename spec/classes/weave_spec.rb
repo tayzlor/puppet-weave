@@ -67,21 +67,21 @@ describe 'weave', :type => :class do
       end
 
       context "When installing via URL by default" do
-        it { should contain_staging__file('weave.zip').with(:source => 'https://github.com/zettio/weave/archive/latest_release.zip') }
+        it { should contain_staging__file('weave').with(:source => 'https://github.com/zettio/weave/releases/download/latest_release/weave') }
       end
 
       context "When installing via URL by with a special version" do
         let(:params) {{
           :version   => '0.9.0',
         }}
-        it { should contain_staging__file('weave.zip').with(:source => 'https://github.com/zettio/weave/archive/0.9.0.zip') }
+        it { should contain_staging__file('weave').with(:source => 'https://github.com/zettio/weave/releases/download/0.9.0/weave') }
       end
 
       context "When installing via URL by with a custom url" do
         let(:params) {{
           :download_url   => 'http://myurl',
         }}
-        it { should contain_staging__file('weave.zip').with(:source => 'http://myurl') }
+        it { should contain_staging__file('weave').with(:source => 'http://myurl') }
       end
 
       context 'with a custom service name' do

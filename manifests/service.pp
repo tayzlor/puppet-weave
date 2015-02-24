@@ -14,7 +14,7 @@ class weave::service (
   $service_enable       = $weave::service_enable,
 ) {
   # Remove the current node IP address from the cluster if its in there.
-  $cluster_peers = strip(regsubst(join($peers, ' '), "^${::ipaddress_eth0}$", '', 'G'))
+  $cluster_peers = strip(join((regsubst($peers, "^${::ipaddress_eth0}$", '', 'G')), ' '))
 
   case $::osfamily {
     'Debian': {
@@ -30,11 +30,17 @@ class weave::service (
       file { '/etc/init.d/weave':
         ensure => 'link',
         target => '/lib/init/upstart-job',
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0755',
         force  => true,
         notify => Service['weave'],
       }
       file { "/etc/default/${service_name}":
         ensure  => present,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
         force   => true,
         content => template('weave/etc/default/weave.erb'),
         notify  => Service['weave'],
@@ -44,6 +50,9 @@ class weave::service (
       if ($::operatingsystem == 'Fedora') or (versioncmp($::operatingsystemrelease, '7.0') >= 0) {
         file { '/etc/systemd/system/weave.service':
           ensure  => present,
+          mode    => '0644',
+          owner   => 'root',
+          group   => 'root',
           force   => true,
           content => template('weave/etc/systemd/system/weave.service.erb'),
           notify  => Service['weave'],
@@ -52,6 +61,9 @@ class weave::service (
       } else {
         file { '/etc/init.d/weave':
           ensure  => present,
+          mode    => '0555',
+          owner   => 'root',
+          group   => 'root',
           force   => true,
           content => template('weave/etc/init.d/weave.erb'),
           notify  => Service['weave'],
@@ -62,6 +74,9 @@ class weave::service (
 
       file { '/etc/sysconfig/weave':
         ensure  => present,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
         force   => true,
         content => template('weave/etc/sysconfig/weave.erb'),
         notify  => Service['weave'],
