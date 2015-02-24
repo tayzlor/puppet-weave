@@ -24,7 +24,7 @@ define weave::expose(
 
   if $create_bridge {
     exec { "weave-create-bridge-${ip}":
-      command => "weave create-bridge",
+      command => 'weave create-bridge',
       path    => $weave::bin_dir,
       require => Exec["weave-expose-${ip}"],
     }

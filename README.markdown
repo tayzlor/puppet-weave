@@ -28,7 +28,7 @@ include 'weave'
 ```
 
 By default this downloads the Weave source from Github and installs it under
-/usr/local/bin.
+/usr/local/bin/weave.
 
 If you want to install via a package management system:
 
@@ -37,6 +37,14 @@ class { 'weave':
   install_method => 'package',
   package_name   => 'weave',
   package_ensure => 'present',
+}
+```
+
+If using in conjunction with [garethr/docker](https://forge.puppetlabs.com/garethr/docker) module.
+
+```puppet
+class { 'weave':
+  require => Class['docker'],
 }
 ```
 
