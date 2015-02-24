@@ -1,7 +1,15 @@
 require 'spec_helper'
 
 describe 'weave::expose' do
-  let(:facts) {{ :architecture => 'x86_64' }}
+  let(:facts) {{
+    :architecture           => 'x86_64',
+    :osfamily               => 'Debian',
+    :lsbdistid              => 'Ubuntu',
+    :operatingsystem        => 'Ubuntu',
+    :lsbdistcodename        => 'trusty',
+    :operatingsystemrelease => '14.04',
+    :kernelrelease          => '3.8.0-29-generic'
+  }}
   let(:title) { "expose-test" }
 
   describe 'with no args' do

@@ -117,6 +117,15 @@ describe 'weave', :type => :class do
         it { should contain_file(init_file).with_content(/weave launch 10.0.0.1/) }
       end
 
+      context "When including the current IP in cluster peers" do
+        let(:params) {{
+          :client_ip => '10.0.0.1',
+          :peers     => ['10.0.0.1', '10.0.0.2']
+        }}
+
+        it { should contain_file(init_file).with_content(/weave launch 10.0.0.2/) }
+      end
+
       context 'with expose' do
         let(:params) { {'expose' => '10.0.0.1/24'} }
         it { should contain_weave__expose('weave-expose-10.0.0.1/24').with_ip('10.0.0.1/24') }
@@ -135,23 +144,6 @@ describe 'weave', :type => :class do
 
     it { should contain_service('weave').with_hasrestart('true') }
     it { should contain_file('/etc/init.d/weave') }
-  end
-
-  context "When including the current IP in cluster peers" do
-    let(:facts) { {
-      :osfamily               => 'Debian',
-      :lsbdistid              => 'Ubuntu',
-      :operatingsystem        => 'Ubuntu',
-      :lsbdistcodename        => 'trusty',
-      :operatingsystemrelease => '14.04',
-      :kernelrelease          => '3.8.0-29-generic',
-      :ipaddress_eth0         => '10.0.0.1'
-    } }
-    let :params do
-      { :peers => ['10.0.0.1', '10.0.0.2'] }
-    end
-
-    it { should contain_file('/etc/init/weave.conf').with_content(/weave launch 10.0.0.2/) }
   end
 
   context 'unsupported operating system' do
