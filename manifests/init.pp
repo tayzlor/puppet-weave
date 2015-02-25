@@ -44,7 +44,6 @@ class weave (
   $package_name      = $weave::params::package_name,
   $package_ensure    = $weave::params::package_ensure,
   $expose            = $weave::params::expose,
-  $create_bridge     = $weave::params::create_bridge,
   $password          = $weave::params::password,
   $peers             = $weave::params::peers,
   $client_ip         = $::ipaddress,
@@ -56,12 +55,14 @@ class weave (
 ) inherits ::weave::params {
   validate_string($version)
   validate_string($password)
-  validate_bool($create_bridge)
   validate_re($::osfamily, '^(Debian|RedHat)$', 'This module only works on Debian and Red Hat based systems.')
   validate_array($peers)
 
   if $expose {
-    ensure_resource('weave::expose', "weave-expose-${expose}", { 'ip' => $expose, 'create_bridge' => $create_bridge })
+    class { 'weave::expose':
+      ip      => $expose,
+      require => Class['weave::install']
+    }
   }
 
   class { 'weave::install': } ->
