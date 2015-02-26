@@ -1,5 +1,7 @@
 [![Build
 Status](https://secure.travis-ci.org/tayzlor/puppet-weave.png)](http://travis-ci.org/tayzlor/puppet-weave)
+[![Puppet
+Forge](https://img.shields.io/puppetforge/v/tayzlor/weave.svg)](https://forge.puppetlabs.com/tayzlor/weave)
 
 Puppet module for installing, and configuring [Weave](https://github.com/zettio/weave), the virtual network that connects
 Docker containers deployed across multiple hosts.
