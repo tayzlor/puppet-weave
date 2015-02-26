@@ -12,7 +12,6 @@ class weave::params {
   $bin_dir           = '/usr/local/bin'
   $password          = undef
   $expose            = undef
-  $create_bridge     = false
   $service_name      = 'weave'
   $service_state     = running
   $service_enable    = true
