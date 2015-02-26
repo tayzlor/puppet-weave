@@ -14,3 +14,6 @@ env:
   - PUPPET_VERSION="~> 3.7.0"
   - PUPPET_VERSION="~> 3.6.0" PARSER="future"
   - PUPPET_VERSION="~> 3.7.0" PARSER="future"
+branches:
+  only:
+    - master
