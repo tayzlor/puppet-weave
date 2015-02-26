@@ -122,10 +122,10 @@ describe 'weave', :type => :class do
         let(:params) { {'expose' => '10.0.0.1/24'} }
         it { should contain_class('weave::install').that_comes_before('weave::expose') }
 
-        it { should contain_exec('weave-expose-10.0.0.1/24').with(
-          'command' => 'weave expose 10.0.0.1/24',
+        it { should contain_exec('weave-expose-10.0.0.1/24').with({
+          'command' => 'weave expose 10.0.1.1/24',
           'user'    => 'root',
-        )}
+        })}
       end
     end
   end
