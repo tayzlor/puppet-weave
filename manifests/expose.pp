@@ -1,16 +1,14 @@
-# == Define: weave:expose
+# == Class: weave:expose
 #
 # === Parameters
 #
 # [*ip*]
-#   An IP address to expose for the Weave bridge.
-#   Will execute weave expose [IP].
+#   An IP address to expose as the Weave bridge.
+#   Will execute weave expose [ip].
 #
 class weave::expose(
   $ip = undef,
 ) {
-  include weave
-
   if ! is_ip_address($ip) {
     fail('weave::expose::ip should be an IP address.')
   }

@@ -47,8 +47,9 @@ If you are using this in conjunction with [garethr/docker](https://forge.puppetl
 
 ```puppet
 class { 'weave':
-  require => Class['docker'],
+  require => Service['docker'],
 }
+Service['docker'] -> Service['weave']
 ```
 
 By default this will run weave launch (on install) without connecting to any cluster peers.

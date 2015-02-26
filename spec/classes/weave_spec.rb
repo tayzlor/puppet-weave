@@ -8,7 +8,6 @@ describe 'weave', :type => :class do
       it { is_expected.to contain_class('weave::install').that_comes_before('weave::config') }
       it { is_expected.to contain_class('weave::config') }
       it { is_expected.to contain_class('weave::service').that_subscribes_to('weave::config') }
-
       it { is_expected.to contain_service('weave') }
 
       if osfamily == 'Debian'
@@ -39,20 +38,6 @@ describe 'weave', :type => :class do
         it { should contain_file(service_config_file) }
         it { should contain_file(init_file) }
         it { should contain_service('weave').with_hasrestart('false') }
-      end
-
-      context 'When passing a non-bool as create_bridge' do
-        let(:params) {{
-          :create_bridge => 'hello'
-        }}
-        it { expect { should compile }.to raise_error(/is not a boolean/) }
-      end
-
-      context 'When passing an invalid IP address as expose' do
-        let(:params) {{
-          :expose => 'hello'
-        }}
-        it { expect { should compile }.to raise_error(/weave::expose::ip should be an IP address/) }
       end
 
       context 'When requesting to install via a package with defaults' do
@@ -126,11 +111,21 @@ describe 'weave', :type => :class do
         it { should contain_file(init_file).with_content(/weave launch 10.0.0.2/) }
       end
 
+      context 'When passing an invalid IP address as expose' do
+        let(:params) {{
+          :expose => 'hello'
+        }}
+        it { expect { should compile }.to raise_error(/weave::expose::ip should be an IP address/) }
+      end
+
       context 'with expose' do
         let(:params) { {'expose' => '10.0.0.1/24'} }
-        it { should contain_weave__expose('weave-expose-10.0.0.1/24').with_ip('10.0.0.1/24') }
-        it { should contain_weave__expose('weave-expose-10.0.0.1/24').with_create_bridge('false') }
-        it { should have_weave__expose_resource_count(1) }
+        it { should contain_class('weave::install').that_comes_before('weave::expose') }
+
+        it { should contain_exec('weave-expose-10.0.0.1/24').with(
+          'command' => 'weave expose 10.0.0.1/24',
+          'user'    => 'root',
+        )}
       end
     end
   end
