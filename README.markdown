@@ -64,20 +64,18 @@ class { 'weave':
 }
 ```
 
-This can also be used in conjunction with create_bridge:
-
-```puppet
-class { 'weave':
-  expose        => '10.0.1.102/24',
-  create_bridge => true,
-}
-```
-
 This will end up running -
 
 ```shell
 /usr/local/bin/weave expose 10.0.1.102/24
-/usr/local/bin/weave create-bridge
+```
+
+Using Hiera (e.g. common/weave.yml):
+
+```puppet
+weave::version: '0.9.0'
+weave::peers: [ '10.0.1.1', '10.0.1.2', '10.0.1.3' ]
+weave::expose: "10.0.1.102/24"
 ```
 
 ## Limitations
