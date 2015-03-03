@@ -17,6 +17,7 @@ class weave::expose(
     command => "weave expose ${ip}",
     path    => [$weave::bin_dir,'/sbin','/bin','/usr/bin'],
     user    => 'root',
+    unless  => "ifconfig weave | grep ${ip}"
     require => Class['weave::install']
   }
 }
